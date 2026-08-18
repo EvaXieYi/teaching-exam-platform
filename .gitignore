@@ -1,0 +1,15 @@
+.tools/
+*.zip
+*.log
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+exam-server/target/
+exam-server/data/
+exam-server/*.log
+
+exam-web/node_modules/
+exam-web/dist/
