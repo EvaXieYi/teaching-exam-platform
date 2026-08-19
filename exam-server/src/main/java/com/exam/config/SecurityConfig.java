@@ -25,6 +25,10 @@ import java.util.Collections;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
+/**
+ * Spring Security：关闭 Session，用 JWT。
+ * /api/auth/login 匿名；/api/student/** 仅学生；/api/users/** 仅管理员；其余 /api/** 教师或管理员。
+ */
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;

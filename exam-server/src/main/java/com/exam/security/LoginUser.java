@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Getter
+/** Spring Security 当前用户：含角色和考生 studentId（非学生则为 null）。 */
 public class LoginUser implements UserDetails {
     private final Long userId;
     private final Long studentId;

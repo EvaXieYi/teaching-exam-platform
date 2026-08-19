@@ -34,6 +34,10 @@ import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
+/**
+ * 库为空时写入演示数据：admin / teacher / 两名学生、知识点树、5 道样题、一场进行中的考试。
+ * 有用户后不再重复初始化。
+ */
 public class DataInitializer implements ApplicationRunner {
     private final SysUserMapper userMapper;
     private final StudentMapper studentMapper;

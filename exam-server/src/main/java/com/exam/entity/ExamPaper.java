@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("exam_paper")
+/** 试卷 exam_paper：题目组合，可被多场考试复用。 */
 public class ExamPaper {
     @TableId(type = IdType.AUTO)
     private Long id;

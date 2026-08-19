@@ -37,6 +37,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/**
+ * 学生考试主流程：开始（冻结题目快照）→ 保存答案 → 交卷评分。
+ * 拉题接口不带正确答案；剩余时间用「开始时间 + 时长」与考试截止时间的较小值。
+ */
 public class StudentExamService {
     private final ExamMapper examMapper;
     private final ExamPaperMapper paperMapper;
@@ -88,6 +92,7 @@ public class StudentExamService {
     }
 
     @Transactional
+    /** 创建答卷、写入题目快照，返回题目（不含答案）和剩余秒数。 */
     public TakeVO start(Long examId) {
         Long studentId = SecurityUtils.requireStudentId();
         Exam exam = examMapper.selectById(examId);
@@ -142,6 +147,7 @@ public class StudentExamService {
     }
 
     @Transactional
+    /** 考试中保存答案；时间到则自动交卷。 */
     public void saveAnswers(Long recordId, List<AnswerSaveRequest> answers) {
         ExamRecord record = requireOwnRecord(recordId);
         if (!"ANSWERING".equals(record.getRecordStatus())) {
@@ -172,6 +178,7 @@ public class StudentExamService {
     }
 
     @Transactional
+    /** 交卷：先锁状态防重复，客观题自动评分，有简答题则 MARKING，否则 FINISHED。 */
     public void submit(Long recordId, List<AnswerSaveRequest> answers) {
         ExamRecord record = requireOwnRecord(recordId);
         if (!"ANSWERING".equals(record.getRecordStatus())) {
@@ -290,6 +297,7 @@ public class StudentExamService {
         }
     }
 
+    /** 阅卷结束或无简答题时：写总分、是否及格，并重算该生知识点掌握度。 */
     public void finishRecord(ExamRecord record, Exam exam, BigDecimal subjective) {
         ExamPaper paper = paperMapper.selectById(record.getPaperId());
         record.setSubjectiveScore(subjective);

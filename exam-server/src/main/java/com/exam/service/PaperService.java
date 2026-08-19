@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/** 组卷。未绑定知识点的题目不能加入试卷。 */
 public class PaperService {
     private final ExamPaperMapper paperMapper;
     private final ExamPaperQuestionMapper paperQuestionMapper;

@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/** 考试任务：草稿可改，发布后指定考生可见；runtimeStatus 按当前时间计算未开始/进行中/已结束。 */
 public class ExamManageService {
     private final ExamMapper examMapper;
     private final ExamPaperMapper paperMapper;

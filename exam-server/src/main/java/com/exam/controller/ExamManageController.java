@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/** 考试任务：时间窗、指定考生、发布/停止；工作台统计也在这里。 */
 @RestController
 @RequiredArgsConstructor
 public class ExamManageController {

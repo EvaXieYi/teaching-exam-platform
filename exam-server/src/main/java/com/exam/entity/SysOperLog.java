@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("sys_oper_log")
+/** 操作日志 sys_oper_log。 */
 public class SysOperLog {
     @TableId(type = IdType.AUTO)
     private Long id;

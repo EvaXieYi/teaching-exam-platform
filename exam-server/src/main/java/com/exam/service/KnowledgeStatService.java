@@ -24,6 +24,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+/** 按学生已完成答卷重算 student_knowledge_stat。简答题按实际得分（不是只记对错）分摊到知识点。 */
 public class KnowledgeStatService {
     private final ExamRecordMapper recordMapper;
     private final ExamAnswerMapper answerMapper;

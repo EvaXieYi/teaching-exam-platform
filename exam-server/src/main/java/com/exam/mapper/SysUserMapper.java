@@ -5,5 +5,6 @@ import com.exam.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
+/** 登录用户表。 */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 }

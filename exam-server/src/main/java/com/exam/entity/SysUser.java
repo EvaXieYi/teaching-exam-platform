@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("sys_user")
+/** 登录账号表 sys_user。role：ADMIN / TEACHER / STUDENT。密码为 BCrypt，不是明文。 */
 public class SysUser {
     @TableId(type = IdType.AUTO)
     private Long id;

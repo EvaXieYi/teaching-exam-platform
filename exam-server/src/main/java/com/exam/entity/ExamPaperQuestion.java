@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @Data
 @TableName("exam_paper_question")
+/** 试卷内的题目及本题分值。 */
 public class ExamPaperQuestion {
     @TableId(type = IdType.AUTO)
     private Long id;

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/** 知识点树、题库分类。题目必须绑定知识点才能正式组卷。 */
 @RestController
 @RequiredArgsConstructor
 public class CatalogController {

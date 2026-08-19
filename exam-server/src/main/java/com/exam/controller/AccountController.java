@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/** 管理员/教师：用户账号与学生档案（学号即登录名）。 */
 @RestController
 @RequiredArgsConstructor
 public class AccountController {

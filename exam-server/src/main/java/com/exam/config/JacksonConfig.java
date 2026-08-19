@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
+/** LocalDateTime 与前端统一为 yyyy-MM-dd HH:mm:ss。 */
 public class JacksonConfig {
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
+/** 分页结果：total 总条数，records 当前页列表。 */
 @Data
 public class PageResult<T> {
     private long total;

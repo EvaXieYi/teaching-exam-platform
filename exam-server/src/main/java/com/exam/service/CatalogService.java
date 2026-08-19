@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/** 知识点树、题库分类的维护。 */
 public class CatalogService {
     private final KnowledgePointMapper knowledgePointMapper;
     private final QuestionCategoryMapper categoryMapper;

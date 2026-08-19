@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/** 题库增删改查，支持单选/多选/判断/填空/简答。 */
 @RestController
 @RequestMapping("/api/questions")
 @RequiredArgsConstructor

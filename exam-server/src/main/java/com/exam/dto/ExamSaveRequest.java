@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+/** 创建/编辑考试任务：时间、时长、指定考生。 */
 public class ExamSaveRequest {
     private Long id;
     private String examName;

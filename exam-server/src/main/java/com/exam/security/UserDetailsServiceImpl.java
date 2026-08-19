@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+/** 按用户名加载账号；学生角色再查出 student 表主键。 */
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final SysUserMapper sysUserMapper;

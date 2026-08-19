@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("exam_answer")
+/** 每题作答明细。开始考试时写入题干和正确答案快照，之后改题库不影响已考记录。 */
 public class ExamAnswer {
     @TableId(type = IdType.AUTO)
     private Long id;

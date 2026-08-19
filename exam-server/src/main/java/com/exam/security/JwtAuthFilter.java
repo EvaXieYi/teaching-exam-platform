@@ -20,6 +20,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+/** 每个请求读取 Authorization: Bearer，校验 token 后写入登录用户。 */
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;

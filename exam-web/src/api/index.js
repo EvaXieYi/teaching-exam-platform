@@ -1,5 +1,6 @@
 import http from './http'
 
+/** 前端调用的后端接口，路径与 controller 上的 @RequestMapping 对应。 */
 export const login = (data) => http.post('/api/auth/login', data)
 export const me = () => http.get('/api/auth/me')
 export const logout = () => http.post('/api/auth/logout')

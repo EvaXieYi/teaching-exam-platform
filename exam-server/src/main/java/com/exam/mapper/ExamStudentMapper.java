@@ -5,5 +5,6 @@ import com.exam.entity.ExamStudent;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
+/** 考试人员表。 */
 public interface ExamStudentMapper extends BaseMapper<ExamStudent> {
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("question_category")
+/** 题库分类 question_category。 */
 public class QuestionCategory {
     @TableId(type = IdType.AUTO)
     private Long id;

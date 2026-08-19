@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("student")
+/** 考生档案表 student，通过 userId 关联登录账号。 */
 public class Student {
     @TableId(type = IdType.AUTO)
     private Long id;

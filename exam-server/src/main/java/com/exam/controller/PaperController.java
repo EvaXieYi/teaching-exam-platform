@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/** 试卷（题目组合 + 每题分值），可被多场考试复用。 */
 @RestController
 @RequestMapping("/api/papers")
 @RequiredArgsConstructor

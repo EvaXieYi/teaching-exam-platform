@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
+/** 统一请求：自动带 JWT；后端 Result.code !== 0 或 401 时在这里处理。 */
 const http = axios.create({
   baseURL: '/',
   timeout: 20000

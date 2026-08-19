@@ -3,6 +3,7 @@ package com.exam.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+/** 从 SecurityContext 取出当前登录用户；学生接口用 requireStudentId。 */
 public final class SecurityUtils {
     private SecurityUtils() {
     }

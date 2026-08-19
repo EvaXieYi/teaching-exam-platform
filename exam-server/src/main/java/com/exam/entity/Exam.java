@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("exam")
+/** 一场真实考试：哪份试卷、何时考、是否公布成绩/答案。和试卷是两张表。 */
 public class Exam {
     @TableId(type = IdType.AUTO)
     private Long id;

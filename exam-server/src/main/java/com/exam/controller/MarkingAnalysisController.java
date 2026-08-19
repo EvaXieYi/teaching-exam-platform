@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/** 简答题阅卷、单场统计、班级/学生知识点分析、成绩导出。 */
 @RestController
 @RequiredArgsConstructor
 public class MarkingAnalysisController {

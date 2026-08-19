@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/** 学情分析：单场考试统计、学生/班级知识点掌握度。掌握度 = 实得分 / 满分 × 100。 */
 public class AnalysisService {
     private final ExamMapper examMapper;
     private final ExamStudentMapper examStudentMapper;

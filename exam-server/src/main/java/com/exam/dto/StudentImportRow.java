@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 @Data
+/** Excel 导入学生的列：学号、姓名、部门、班级、手机、邮箱。 */
 public class StudentImportRow {
     @ExcelProperty("学号")
     private String studentNo;

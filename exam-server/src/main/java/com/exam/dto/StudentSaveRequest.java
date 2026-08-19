@@ -3,6 +3,7 @@ package com.exam.dto;
 import lombok.Data;
 
 @Data
+/** 新增/编辑学生。学号同时作为登录名。 */
 public class StudentSaveRequest {
     private Long id;
     private String studentNo;

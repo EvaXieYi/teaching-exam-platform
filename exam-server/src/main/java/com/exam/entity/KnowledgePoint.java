@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("knowledge_point")
+/** 知识点树 knowledge_point，parentId=0 为根节点。 */
 public class KnowledgePoint {
     @TableId(type = IdType.AUTO)
     private Long id;

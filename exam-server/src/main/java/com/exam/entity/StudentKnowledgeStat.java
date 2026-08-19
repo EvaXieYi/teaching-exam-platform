@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("student_knowledge_stat")
+/** 学生知识点掌握汇总，阅卷完成后由 KnowledgeStatService 回写。 */
 public class StudentKnowledgeStat {
     @TableId(type = IdType.AUTO)
     private Long id;

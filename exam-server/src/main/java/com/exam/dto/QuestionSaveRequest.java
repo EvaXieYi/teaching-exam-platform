@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+/** 新增/编辑题目。knowledgePointIds 必填；选择题带 options。 */
 public class QuestionSaveRequest {
     private Long id;
     private Long categoryId;

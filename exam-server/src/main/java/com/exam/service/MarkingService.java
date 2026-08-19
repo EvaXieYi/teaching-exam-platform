@@ -25,6 +25,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+/** 简答题人工阅卷。该份答卷全部简答题批完后汇总主观分、出总分，并回写知识点掌握度。 */
 public class MarkingService {
     private final ExamRecordMapper recordMapper;
     private final ExamAnswerMapper answerMapper;

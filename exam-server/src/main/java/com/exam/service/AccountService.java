@@ -22,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+/** 教师/管理员账号、学生档案。新增学生时同步创建 STUDENT 登录用户，默认密码 student123。 */
 public class AccountService {
     private final SysUserMapper userMapper;
     private final StudentMapper studentMapper;

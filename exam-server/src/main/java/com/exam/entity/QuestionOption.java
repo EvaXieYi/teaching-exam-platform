@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 @TableName("question_option")
+/** 选择题选项。考试拉题时不要把 isCorrect 返回给学生。 */
 public class QuestionOption {
     @TableId(type = IdType.AUTO)
     private Long id;

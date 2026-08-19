@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("question")
+/** 题目 question。questionType：SINGLE/MULTIPLE/JUDGE/FILL/ESSAY。status=0 为逻辑删除。 */
 public class Question {
     @TableId(type = IdType.AUTO)
     private Long id;

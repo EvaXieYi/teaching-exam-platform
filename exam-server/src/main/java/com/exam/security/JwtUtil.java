@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
+/** 签发和解析 JWT，载荷里带 uid、username、role。 */
 public class JwtUtil {
 
     private final SecretKey key;

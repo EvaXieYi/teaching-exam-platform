@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../stores/user'
 
+// /admin 教师和管理员；/student 学生；/exam/:id 全屏答题（无侧边栏）
 const routes = [
   { path: '/login', component: () => import('../views/login/Login.vue') },
   {
@@ -43,6 +44,7 @@ const router = createRouter({
   routes
 })
 
+// 未登录去登录页；学生不能进 /admin，教师不能进 /student 和答题页
 router.beforeEach(async (to) => {
   const store = useUserStore()
   if (to.path === '/login') {

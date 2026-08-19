@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @TableName("exam_record")
+/** 一份答卷/成绩。recordStatus：ANSWERING / SUBMITTED / MARKING / FINISHED。 */
 public class ExamRecord {
     @TableId(type = IdType.AUTO)
     private Long id;

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+/** 登录、查当前用户、退出。JWT 无状态，logout 主要由前端删掉 token。 */
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
 
+    /** 校验用户名密码，返回 token 和角色，前端按角色跳教师端或学生端。 */
     @PostMapping("/login")
     public Result<LoginVO> login(@Valid @RequestBody LoginRequest req) {
         return Result.ok(authService.login(req));

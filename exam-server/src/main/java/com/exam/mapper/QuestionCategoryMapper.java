@@ -5,5 +5,6 @@ import com.exam.entity.QuestionCategory;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
+/** 题库分类表。 */
 public interface QuestionCategoryMapper extends BaseMapper<QuestionCategory> {
 }

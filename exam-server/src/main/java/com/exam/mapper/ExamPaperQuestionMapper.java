@@ -5,5 +5,6 @@ import com.exam.entity.ExamPaperQuestion;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
+/** 试卷题目表。 */
 public interface ExamPaperQuestionMapper extends BaseMapper<ExamPaperQuestion> {
 }

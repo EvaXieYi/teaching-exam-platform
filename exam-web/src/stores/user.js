@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { login as loginApi, me } from '../api'
 
+/** 登录态：token 和用户信息存在 localStorage，刷新页面不丢。 */
 export const useUserStore = defineStore('user', {
   state: () => ({
     token: localStorage.getItem('token') || '',

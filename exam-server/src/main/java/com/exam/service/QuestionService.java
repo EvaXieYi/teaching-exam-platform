@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/** 题库：保存时必须至少绑一个知识点；选择题的正确答案从选项 isCorrect 汇总。 */
 public class QuestionService {
     private final QuestionMapper questionMapper;
     private final QuestionOptionMapper optionMapper;

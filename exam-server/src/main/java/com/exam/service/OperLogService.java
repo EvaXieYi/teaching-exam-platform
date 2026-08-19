@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+/** 写入操作日志，例如发布考试、完成阅卷。 */
 public class OperLogService {
     private final SysOperLogMapper logMapper;
 
