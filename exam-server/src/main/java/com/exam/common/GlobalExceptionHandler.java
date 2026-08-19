@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 全局异常处理：任何 Controller 抛出的异常都在这里变成统一 JSON，避免把堆栈直接返回给前端。
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
