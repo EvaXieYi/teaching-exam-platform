@@ -83,7 +83,7 @@ public class DataInitializer implements ApplicationRunner {
         cat.setCreatedAt(now);
         categoryMapper.insert(cat);
 
-        Question q1 = question(cat.getId(), "SINGLE", "下列关于 Java 多态的描述，正确的是？",
+        Question q1 = question(java.getId(), "SINGLE", "下列关于 Java 多态的描述，正确的是？",
                 "子类对象可以赋值给父类引用，运行时调用子类重写方法", "方法重载就是多态", 2, teacher.getId(), now);
         option(q1.getId(), "A", "子类对象可以赋值给父类引用，运行时调用子类重写方法", 1, 1);
         option(q1.getId(), "B", "Java 不支持多态", 0, 2);
@@ -93,7 +93,7 @@ public class DataInitializer implements ApplicationRunner {
         questionMapper.updateById(q1);
         link(q1.getId(), poly.getId());
 
-        Question q2 = question(cat.getId(), "MULTIPLE", "下列属于 List 接口实现的有哪些？",
+        Question q2 = question(java.getId(), "MULTIPLE", "下列属于 List 接口实现的有哪些？",
                 "ArrayList 和 LinkedList 都实现了 List", "注意区分 Set 与 List", 2, teacher.getId(), now);
         option(q2.getId(), "A", "ArrayList", 1, 1);
         option(q2.getId(), "B", "LinkedList", 1, 2);
@@ -103,7 +103,7 @@ public class DataInitializer implements ApplicationRunner {
         questionMapper.updateById(q2);
         link(q2.getId(), list.getId());
 
-        Question q3 = question(cat.getId(), "JUDGE", "HashMap 允许 key 为 null。",
+        Question q3 = question(java.getId(), "JUDGE", "HashMap 允许 key 为 null。",
                 "HashMap 允许一个 null key", null, 1, teacher.getId(), now);
         option(q3.getId(), "对", "对", 1, 1);
         option(q3.getId(), "错", "错", 0, 2);
@@ -111,13 +111,13 @@ public class DataInitializer implements ApplicationRunner {
         questionMapper.updateById(q3);
         link(q3.getId(), map.getId());
 
-        Question q4 = question(cat.getId(), "FILL", "子类使用 ______ 关键字继承父类。",
+        Question q4 = question(java.getId(), "FILL", "子类使用 ______ 关键字继承父类。",
                 "extends 用于类继承", "extends", 1, teacher.getId(), now);
         q4.setCorrectAnswer("extends");
         questionMapper.updateById(q4);
         link(q4.getId(), inh.getId());
 
-        Question q5 = question(cat.getId(), "ESSAY", "请简述封装的含义，并举一个实际例子。",
+        Question q5 = question(java.getId(), "ESSAY", "请简述封装的含义，并举一个实际例子。",
                 "评分要点：隐藏内部实现、通过方法暴露访问、举例合理。",
                 "封装是将数据和对数据的操作组合在一起，对外隐藏内部实现细节。例如把字段设为 private，通过 getter/setter 访问。",
                 3, teacher.getId(), now);

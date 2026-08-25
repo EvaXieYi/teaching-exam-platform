@@ -12,9 +12,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="分类">
-          <el-select v-model="form.categoryId" style="width:240px">
+          <el-select v-model="form.categoryId" placeholder="请选择分类（来自知识点根节点）" style="width:240px">
             <el-option v-for="c in cats" :key="c.id" :label="c.categoryName" :value="c.id" />
           </el-select>
+          <div class="hint">分类即知识点树的根节点。在「知识点」里新增「Linux相关」后，这里会出现该项</div>
         </el-form-item>
         <el-form-item label="题干"><el-input v-model="form.content" type="textarea" :rows="4" /></el-form-item>
         <el-form-item v-if="isChoice" label="选项">
@@ -125,4 +126,5 @@ onMounted(async () => {
 
 <style scoped>
 .opt { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.hint { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 </style>
