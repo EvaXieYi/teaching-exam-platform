@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="page-head">
-      <div><h2>题库</h2><p>单选 / 多选 / 判断 / 填空 / 简答，必须绑定知识点</p></div>
+      <div>
+        <h2>题库</h2>
+        <p>单选 / 多选 / 判断 / 填空 / 简答；分类来自知识点树的根节点</p>
+      </div>
       <el-button type="primary" @click="$router.push('/admin/questions/edit')">新增题目</el-button>
     </div>
     <div class="card">
@@ -9,7 +12,7 @@
         <el-select v-model="query.type" clearable placeholder="题型" style="width:140px">
           <el-option v-for="t in types" :key="t.v" :label="t.l" :value="t.v" />
         </el-select>
-        <el-select v-model="query.categoryId" clearable placeholder="分类" style="width:160px">
+        <el-select v-model="query.categoryId" clearable placeholder="分类（知识点根）" style="width:180px">
           <el-option v-for="c in cats" :key="c.id" :label="c.categoryName" :value="c.id" />
         </el-select>
         <el-input v-model="query.keyword" placeholder="题干关键词" clearable style="width:220px" />
@@ -38,7 +41,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { pageQuestions, listCategories, removeQuestion } from '../../api'
 
-export const types = [
+const types = [
   { v: 'SINGLE', l: '单选' }, { v: 'MULTIPLE', l: '多选' }, { v: 'JUDGE', l: '判断' },
   { v: 'FILL', l: '填空' }, { v: 'ESSAY', l: '简答' }
 ]

@@ -1,0 +1,24 @@
+# 仅在 SPRING_PROFILES_ACTIVE 包含 kafka 且已加入 spring-kafka 依赖时启用。
+# 现网不要把 kafka 加进 systemd，否则缺少依赖会启动失败。
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:9092}
+    consumer:
+      group-id: exam-server
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+    listener:
+      ack-mode: record
+
+exam:
+  kafka:
+    topics:
+      submit: exam.submit
+      score: exam.score
+      oper-log: exam.oper-log

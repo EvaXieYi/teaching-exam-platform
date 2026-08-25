@@ -10,6 +10,7 @@ import com.exam.security.SecurityUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ public class CatalogService {
         LocalDateTime now = LocalDateTime.now();
         if (point.getParentId() == null) {
             point.setParentId(0L);
+        }
+        if (!StringUtils.hasText(point.getName())) {
+            throw new BizException(point.getParentId() == 0L ? "请填写分类名称" : "请填写知识点名称");
         }
         if (point.getStatus() == null) {
             point.setStatus(1);
@@ -63,9 +67,24 @@ public class CatalogService {
         }
     }
 
+    /** 题库「分类」= 知识点树根节点（parentId=0）。在知识点页新增分类后，出题下拉即可看到。 */
     public List<QuestionCategory> listCategories() {
-        return categoryMapper.selectList(new LambdaQueryWrapper<QuestionCategory>()
-                .orderByAsc(QuestionCategory::getSortNo).orderByAsc(QuestionCategory::getId));
+        List<KnowledgePoint> roots = knowledgePointMapper.selectList(
+                new LambdaQueryWrapper<KnowledgePoint>()
+                        .eq(KnowledgePoint::getParentId, 0L)
+                        .eq(KnowledgePoint::getStatus, 1)
+                        .orderByAsc(KnowledgePoint::getSortNo)
+                        .orderByAsc(KnowledgePoint::getId));
+        List<QuestionCategory> list = new ArrayList<>();
+        for (KnowledgePoint p : roots) {
+            QuestionCategory c = new QuestionCategory();
+            c.setId(p.getId());
+            c.setCategoryName(p.getName());
+            c.setParentId(0L);
+            c.setSortNo(p.getSortNo());
+            list.add(c);
+        }
+        return list;
     }
 
     public QuestionCategory saveCategory(QuestionCategory category) {
