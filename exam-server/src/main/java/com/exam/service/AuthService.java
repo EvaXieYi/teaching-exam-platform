@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final AvatarService avatarService;
 
     public LoginVO login(LoginRequest req) {
         Authentication auth = authenticationManager.authenticate(
@@ -32,6 +33,7 @@ public class AuthService {
         vo.setRealName(user.getRealName());
         vo.setRole(user.getRole());
         vo.setStudentId(user.getStudentId());
+        vo.setHasAvatar(avatarService.hasAvatar(user.getUserId()));
         return vo;
     }
 
@@ -42,6 +44,7 @@ public class AuthService {
         vo.setRealName(user.getRealName());
         vo.setRole(user.getRole());
         vo.setStudentId(user.getStudentId());
+        vo.setHasAvatar(avatarService.hasAvatar(user.getUserId()));
         return vo;
     }
 }

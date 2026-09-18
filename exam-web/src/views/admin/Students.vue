@@ -2,11 +2,11 @@
   <div>
     <div class="page-head">
       <div><h2>学生管理</h2><p>学号即登录名，默认密码 student123</p></div>
-      <div>
-        <el-upload :show-file-list="false" accept=".xlsx,.xls" :http-request="onImport">
+      <div class="page-actions">
+        <el-upload class="import-btn" :show-file-list="false" accept=".xlsx,.xls" :http-request="onImport">
           <el-button>Excel 导入</el-button>
         </el-upload>
-        <el-button type="primary" style="margin-left:8px" @click="open()">新增学生</el-button>
+        <el-button type="primary" @click="open()">新增学生</el-button>
       </div>
     </div>
     <div class="card">
@@ -47,10 +47,12 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pageStudents, saveStudent, removeStudent, importStudents } from '../../api'
 
-const query = reactive({ page: 1, size: 10, keyword: '', className: '' })
+const route = useRoute()
+const query = reactive({ page: 1, size: 10, keyword: '', className: route.query.className || '' })
 const table = reactive({ records: [], total: 0 })
 const visible = ref(false)
 const empty = () => ({ id: null, studentNo: '', name: '', department: '', className: '', phone: '', email: '', password: '' })
@@ -83,3 +85,15 @@ async function onImport({ file }) {
 }
 onMounted(load)
 </script>
+
+<style scoped>
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.import-btn :deep(.el-upload) {
+  display: inline-flex;
+}
+</style>

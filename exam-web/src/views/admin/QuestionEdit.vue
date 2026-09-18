@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="page-head">
-      <div><h2>{{ form.id ? '编辑题目' : '新增题目' }}</h2><p>简答题请填写参考答案，仅阅卷可见</p></div>
+      <div><h2>{{ form.id ? '编辑题目' : '新增题目' }}</h2><p>简答 / 关键词解释请填写参考答案，仅阅卷可见</p></div>
       <el-button @click="$router.back()">返回</el-button>
     </div>
     <div class="card">
       <el-form label-width="100px">
         <el-form-item label="题型">
           <el-radio-group v-model="form.questionType" @change="onType">
-            <el-radio-button v-for="t in types" :key="t.v" :label="t.v">{{ t.l }}</el-radio-button>
+            <el-radio-button v-for="t in QUESTION_TYPES" :key="t.v" :label="t.v">{{ t.l }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="分类">
@@ -27,7 +27,7 @@
           </div>
           <el-button @click="addOpt">加选项</el-button>
         </el-form-item>
-        <el-form-item v-if="form.questionType === 'FILL' || form.questionType === 'ESSAY'" :label="form.questionType === 'ESSAY' ? '参考答案' : '标准答案'">
+        <el-form-item v-if="form.questionType === 'FILL' || isSubjective(form.questionType)" :label="isSubjective(form.questionType) ? '参考答案' : '标准答案'">
           <el-input v-model="form.correctAnswer" type="textarea" :rows="3" :placeholder="form.questionType === 'FILL' ? '多个空用 | 分隔' : '阅卷参考，不会发给学生'" />
         </el-form-item>
         <el-form-item label="解析"><el-input v-model="form.analysis" type="textarea" :rows="2" /></el-form-item>
@@ -64,11 +64,8 @@ import { computed, nextTick, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getQuestion, saveQuestion, listCategories, knowledgeTree } from '../../api'
+import { QUESTION_TYPES, isSubjective, isChoice as isChoiceType } from '../../utils/questionTypes'
 
-const types = [
-  { v: 'SINGLE', l: '单选' }, { v: 'MULTIPLE', l: '多选' }, { v: 'JUDGE', l: '判断' },
-  { v: 'FILL', l: '填空' }, { v: 'ESSAY', l: '简答' }
-]
 const route = useRoute()
 const router = useRouter()
 const cats = ref([])
@@ -78,7 +75,7 @@ const form = reactive({
   id: null, categoryId: null, questionType: 'SINGLE', content: '', correctAnswer: '', analysis: '',
   difficulty: 1, defaultScore: 5, visibility: 'PUBLIC', options: [], knowledgePointIds: []
 })
-const isChoice = computed(() => ['SINGLE', 'MULTIPLE', 'JUDGE'].includes(form.questionType))
+const isChoice = computed(() => isChoiceType(form.questionType))
 
 function defaultOptions() {
   if (form.questionType === 'JUDGE') return [{ optionKey: '对', optionContent: '对', isCorrect: 1 }, { optionKey: '错', optionContent: '错', isCorrect: 0 }]

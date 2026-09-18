@@ -2,7 +2,10 @@
   <div class="login-page">
     <div class="panel">
       <div class="intro">
-        <h1>教学考试平台</h1>
+        <div class="intro-brand">
+          <img src="../../assets/logo.png" alt="教学考试平台" />
+          <h1>教学考试平台</h1>
+        </div>
         <p>教师出题组卷、学生在线作答、按知识点分析掌握情况。</p>
         <ul>
           <li>客观题自动评分，简答题人工阅卷</li>
@@ -25,7 +28,7 @@
           <div>管理员 admin / admin123</div>
           <div>教师 teacher / teacher123</div>
           <div>学生 s2024001 / student123</div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
@@ -39,7 +42,7 @@ import { useUserStore } from '../../stores/user'
 const router = useRouter()
 const store = useUserStore()
 const loading = ref(false)
-const form = reactive({ username: 'teacher', password: 'teacher123' })
+const form = reactive({ username: '', password: '' })
 
 async function onSubmit() {
   loading.value = true
@@ -72,7 +75,9 @@ async function onSubmit() {
   overflow: hidden;
 }
 .intro { padding: 40px 36px; background: #0f172a; color: #e2e8f0; }
-.intro h1 { margin: 0 0 12px; color: #fff; font-size: 28px; }
+.intro-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.intro-brand img { width: 48px; height: 48px; object-fit: contain; border-radius: 12px; background: #000; }
+.intro h1 { margin: 0; color: #fff; font-size: 28px; }
 .intro p { line-height: 1.7; }
 .intro ul { padding-left: 18px; line-height: 1.9; color: #cbd5e1; }
 .form { padding: 48px 36px; }

@@ -13,7 +13,7 @@
       <el-table :data="form.questions">
         <el-table-column type="index" width="50" />
         <el-table-column prop="content" label="题干" show-overflow-tooltip />
-        <el-table-column prop="questionType" label="题型" width="90" />
+        <el-table-column label="题型" width="100"><template #default="{ row }">{{ typeLabel(row.questionType) }}</template></el-table-column>
         <el-table-column label="分值" width="140">
           <template #default="{ row }"><el-input-number v-model="row.questionScore" :min="0" size="small" /></template>
         </el-table-column>
@@ -24,15 +24,14 @@
       <h3>从题库添加</h3>
       <el-form inline>
         <el-select v-model="q.type" clearable placeholder="题型" style="width:140px">
-          <el-option label="单选" value="SINGLE" /><el-option label="多选" value="MULTIPLE" />
-          <el-option label="判断" value="JUDGE" /><el-option label="填空" value="FILL" /><el-option label="简答" value="ESSAY" />
+          <el-option v-for="t in QUESTION_TYPES" :key="t.v" :label="t.l" :value="t.v" />
         </el-select>
         <el-input v-model="q.keyword" placeholder="关键词" clearable style="width:200px" />
         <el-button @click="search">查询</el-button>
       </el-form>
       <el-table :data="bank">
         <el-table-column prop="content" label="题干" show-overflow-tooltip />
-        <el-table-column prop="questionType" label="题型" width="90" />
+        <el-table-column label="题型" width="100"><template #default="{ row }">{{ typeLabel(row.questionType) }}</template></el-table-column>
         <el-table-column width="100">
           <template #default="{ row }"><el-button link type="primary" @click="add(row)">加入</el-button></template>
         </el-table-column>
@@ -46,6 +45,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getPaper, savePaper, pageQuestions } from '../../api'
+import { QUESTION_TYPES, typeLabel } from '../../utils/questionTypes'
 
 const route = useRoute()
 const router = useRouter()

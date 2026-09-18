@@ -56,6 +56,10 @@ mvnw.cmd spring-boot:run
 
 默认连接 `localhost:3306`，库名 `exam`，账号 `root/root`，可用环境变量 `MYSQL_HOST`、`MYSQL_PORT`、`MYSQL_USER`、`MYSQL_PASSWORD` 覆盖。
 
+## 题库 PDF 导出字体（可选）
+
+题库导出 PDF 需要中文字体。未配置时后端自动探测 Windows `simhei.ttf` / `msyh.ttc` 或 Linux Noto CJK / 文泉驿；也可用环境变量 `EXAM_PDF_FONT_PATH` 指定字体文件（如 `/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc,0`，`.ttc` 需带 `,0` 索引）。
+
 ## 目录
 
 ```
@@ -69,6 +73,7 @@ sql/           建表脚本
 
 - 三角色登录分流
 - 知识点树、题库（含简答）、手动组卷
+- 题库 Excel 批量导入（模板下载）、勾选题目导出 PDF、新增关键词解释题型
 - 发布考试、指定考生
 - 学生答题、自动保存、到时交卷、客观题自动评分
 - 简答题人工阅卷

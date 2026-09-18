@@ -9,7 +9,7 @@
       <el-button @click="$router.back()">返回</el-button>
     </div>
     <div v-for="(q, i) in data.questions" :key="q.questionId" class="card q">
-      <div class="meta">第 {{ i + 1 }} 题 · {{ q.questionType }} · {{ q.questionScore }} 分
+      <div class="meta">第 {{ i + 1 }} 题 · {{ typeLabel(q.questionType) }} · {{ q.questionScore }} 分
         <span v-if="q.score != null"> · 得分 {{ q.score }}</span>
       </div>
       <div class="stem">{{ q.content }}</div>
@@ -28,6 +28,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { reviewExam } from '../../api'
+import { typeLabel } from '../../utils/questionTypes'
 const route = useRoute()
 const data = ref(null)
 onMounted(async () => {

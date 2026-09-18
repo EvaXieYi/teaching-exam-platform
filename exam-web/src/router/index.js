@@ -54,6 +54,8 @@ router.beforeEach(async (to) => {
   if (!store.token) return '/login'
   if (!store.user) {
     try { await store.loadMe() } catch { store.logout(); return '/login' }
+  } else if (!store.avatarLoaded) {
+    store.loadAvatar()
   }
   if (to.path.startsWith('/admin') && store.isStudent) return '/student'
   if (to.path.startsWith('/student') && !store.isStudent) return '/admin'

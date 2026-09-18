@@ -11,4 +11,5 @@ public class LoginVO {
     private String realName;
     private String role;
     private Long studentId;
+    private Boolean hasAvatar;
 }

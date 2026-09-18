@@ -26,6 +26,7 @@ import java.util.List;
 public class AccountService {
     private final SysUserMapper userMapper;
     private final StudentMapper studentMapper;
+    private final AvatarService avatarService;
     private final PasswordEncoder passwordEncoder;
 
     public PageResult<SysUser> pageUsers(long page, long size, String keyword, String role) {
@@ -167,7 +168,10 @@ public class AccountService {
             return;
         }
         studentMapper.deleteById(id);
-        userMapper.deleteById(student.getUserId());
+        if (student.getUserId() != null) {
+            avatarService.delete(student.getUserId());
+            userMapper.deleteById(student.getUserId());
+        }
     }
 
     private void fillStudent(Student student, StudentSaveRequest req) {

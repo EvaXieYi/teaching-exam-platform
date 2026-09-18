@@ -10,11 +10,13 @@ import com.exam.entity.ExamPaper;
 import com.exam.entity.ExamRecord;
 import com.exam.entity.ExamStudent;
 import com.exam.entity.Student;
+import com.exam.entity.SysOperLog;
 import com.exam.mapper.ExamMapper;
 import com.exam.mapper.ExamPaperMapper;
 import com.exam.mapper.ExamRecordMapper;
 import com.exam.mapper.ExamStudentMapper;
 import com.exam.mapper.StudentMapper;
+import com.exam.mapper.SysOperLogMapper;
 import com.exam.security.SecurityUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +43,7 @@ public class ExamManageService {
     private final ExamRecordMapper recordMapper;
     private final StudentMapper studentMapper;
     private final OperLogService operLogService;
+    private final SysOperLogMapper logMapper;
 
     public PageResult<ExamVO> page(long page, long size, String keyword, String status) {
         LambdaQueryWrapper<Exam> w = new LambdaQueryWrapper<>();
@@ -186,14 +191,74 @@ public class ExamManageService {
 
     public Map<String, Object> dashboard() {
         Map<String, Object> data = new HashMap<>();
-        data.put("studentCount", studentMapper.selectCount(null));
-        data.put("examCount", examMapper.selectCount(null));
-        long pendingMark = recordMapper.selectCount(new LambdaQueryWrapper<ExamRecord>().eq(ExamRecord::getRecordStatus, "MARKING"));
+        List<Student> students = studentMapper.selectList(null);
+        data.put("studentCount", (long) students.size());
+
+        List<String> classNames = students.stream()
+                .map(Student::getClassName)
+                .filter(StringUtils::hasText)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+        data.put("classNames", classNames);
+        data.put("classCount", (long) classNames.size());
+
+        List<Map<String, Object>> classStats = students.stream()
+                .filter(s -> StringUtils.hasText(s.getClassName()))
+                .collect(Collectors.groupingBy(Student::getClassName, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(e -> {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("className", e.getKey());
+                    row.put("studentCount", e.getValue());
+                    return row;
+                })
+                .collect(Collectors.toList());
+        data.put("classStats", classStats);
+
+        LambdaQueryWrapper<Exam> examW = new LambdaQueryWrapper<Exam>().orderByDesc(Exam::getId);
+        if (!SecurityUtils.isAdmin()) {
+            examW.eq(Exam::getCreatedBy, SecurityUtils.requireUser().getUserId());
+        }
+        List<Exam> exams = examMapper.selectList(examW);
+        data.put("examCount", (long) exams.size());
+        data.put("ongoingExamCount", exams.stream().filter(e -> "ONGOING".equals(runtimeStatus(e))).count());
+
+        List<Long> examIds = exams.stream().map(Exam::getId).collect(Collectors.toList());
+        long pendingMark = 0;
+        long answering = 0;
+        long submitted = 0;
+        BigDecimal avgScore = BigDecimal.ZERO;
+        BigDecimal passRate = BigDecimal.ZERO;
+        if (!examIds.isEmpty()) {
+            List<ExamRecord> records = recordMapper.selectList(
+                    new LambdaQueryWrapper<ExamRecord>().in(ExamRecord::getExamId, examIds));
+            pendingMark = records.stream().filter(r -> "MARKING".equals(r.getRecordStatus())).count();
+            answering = records.stream().filter(r -> "ANSWERING".equals(r.getRecordStatus())).count();
+            submitted = records.stream().filter(r -> !"ANSWERING".equals(r.getRecordStatus())).count();
+            List<ExamRecord> finished = records.stream()
+                    .filter(r -> "FINISHED".equals(r.getRecordStatus()))
+                    .collect(Collectors.toList());
+            if (!finished.isEmpty()) {
+                BigDecimal sum = finished.stream()
+                        .map(r -> r.getTotalScore() == null ? BigDecimal.ZERO : r.getTotalScore())
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+                avgScore = sum.divide(BigDecimal.valueOf(finished.size()), 1, RoundingMode.HALF_UP);
+                long passed = finished.stream().filter(r -> Integer.valueOf(1).equals(r.getPassed())).count();
+                passRate = BigDecimal.valueOf(passed * 100.0 / finished.size()).setScale(1, RoundingMode.HALF_UP);
+            }
+        }
         data.put("pendingMarking", pendingMark);
-        List<Exam> recent = examMapper.selectList(new LambdaQueryWrapper<Exam>().orderByDesc(Exam::getId).last("LIMIT 5"));
-        data.put("recentExams", recent.stream().map(this::toVO).collect(Collectors.toList()));
-        data.put("classNames", studentMapper.selectList(null).stream()
-                .map(Student::getClassName).filter(StringUtils::hasText).distinct().collect(Collectors.toList()));
+        data.put("answeringCount", answering);
+        data.put("submittedCount", submitted);
+        data.put("avgScore", avgScore);
+        data.put("passRate", passRate);
+        data.put("recentExams", exams.stream().limit(5).map(this::toVO).collect(Collectors.toList()));
+
+        List<SysOperLog> logs = logMapper.selectList(
+                new LambdaQueryWrapper<SysOperLog>().orderByDesc(SysOperLog::getId).last("LIMIT 8"));
+        data.put("recentLogs", logs);
         return data;
     }
 

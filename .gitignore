@@ -13,3 +13,14 @@ exam-server/*.log
 
 exam-web/node_modules/
 exam-web/dist/
+
+# 本地数据库与运行产物
+data/
+*.mv.db
+*.trace.db
+*.lock.db
+# 日志
+hs_err_pid*.log
+# IDE / 工具
+.cursor/
+.idea/workspace.xml

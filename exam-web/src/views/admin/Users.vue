@@ -15,7 +15,9 @@
       <el-table :data="table.records">
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="realName" label="姓名" />
-        <el-table-column prop="role" label="角色" />
+        <el-table-column label="角色" width="100">
+          <template #default="{ row }">{{ roleText(row.role) }}</template>
+        </el-table-column>
         <el-table-column label="状态"><template #default="{ row }">{{ row.status === 1 ? '启用' : '停用' }}</template></el-table-column>
         <el-table-column label="操作" width="120">
           <template #default="{ row }"><el-button link type="primary" @click="open(row)">编辑</el-button></template>
@@ -51,6 +53,8 @@ const query = reactive({ page: 1, size: 10, keyword: '', role: '' })
 const table = reactive({ records: [], total: 0 })
 const visible = ref(false)
 const form = reactive({ id: null, username: '', realName: '', role: 'TEACHER', password: '', status: 1 })
+const roleMap = { ADMIN: '管理员', TEACHER: '教师', STUDENT: '学生' }
+const roleText = (role) => roleMap[role] || role
 
 async function load() {
   const res = await pageUsers(query)

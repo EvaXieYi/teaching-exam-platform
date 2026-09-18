@@ -12,6 +12,7 @@ import com.exam.mapper.ExamMapper;
 import com.exam.mapper.ExamRecordMapper;
 import com.exam.mapper.StudentMapper;
 import com.exam.security.SecurityUtils;
+import com.exam.util.QuestionTypes;
 import com.exam.util.ScoreCalculator;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-/** 简答题人工阅卷。该份答卷全部简答题批完后汇总主观分、出总分，并回写知识点掌握度。 */
+/** 主观题（简答/关键词解释）人工阅卷。该份答卷全部主观题批完后汇总主观分、出总分，并回写知识点掌握度。 */
 public class MarkingService {
     private final ExamRecordMapper recordMapper;
     private final ExamAnswerMapper answerMapper;
@@ -62,7 +63,7 @@ public class MarkingService {
             }
             long pending = answerMapper.selectCount(new LambdaQueryWrapper<ExamAnswer>()
                     .eq(ExamAnswer::getRecordId, record.getId())
-                    .eq(ExamAnswer::getQuestionTypeSnapshot, "ESSAY")
+                    .in(ExamAnswer::getQuestionTypeSnapshot, QuestionTypes.ESSAY, QuestionTypes.TERM)
                     .isNull(ExamAnswer::getMarkedAt));
             vo.setPendingEssay(pending);
             list.add(vo);
@@ -114,12 +115,12 @@ public class MarkingService {
         ExamRecord record = recordMapper.selectById(answer.getRecordId());
         long pending = answerMapper.selectCount(new LambdaQueryWrapper<ExamAnswer>()
                 .eq(ExamAnswer::getRecordId, record.getId())
-                .eq(ExamAnswer::getQuestionTypeSnapshot, "ESSAY")
+                .in(ExamAnswer::getQuestionTypeSnapshot, QuestionTypes.ESSAY, QuestionTypes.TERM)
                 .isNull(ExamAnswer::getMarkedAt));
         if (pending == 0) {
             List<ExamAnswer> essays = answerMapper.selectList(new LambdaQueryWrapper<ExamAnswer>()
                     .eq(ExamAnswer::getRecordId, record.getId())
-                    .eq(ExamAnswer::getQuestionTypeSnapshot, "ESSAY"));
+                    .in(ExamAnswer::getQuestionTypeSnapshot, QuestionTypes.ESSAY, QuestionTypes.TERM));
             BigDecimal subjective = essays.stream()
                     .map(a -> a.getScore() == null ? BigDecimal.ZERO : a.getScore())
                     .reduce(BigDecimal.ZERO, BigDecimal::add);

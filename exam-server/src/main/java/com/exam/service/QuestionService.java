@@ -14,6 +14,7 @@ import com.exam.mapper.QuestionKnowledgeMapper;
 import com.exam.mapper.QuestionMapper;
 import com.exam.mapper.QuestionOptionMapper;
 import com.exam.security.SecurityUtils;
+import com.exam.util.QuestionTypes;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,10 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,8 +76,27 @@ public class QuestionService {
         return toVO(question);
     }
 
+    /** 按传入 id 顺序返回有效题目，已删除/不存在的跳过；用于 PDF 导出。 */
+    public List<QuestionVO> listByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Long> distinct = new ArrayList<>(new LinkedHashSet<>(ids));
+        distinct.removeIf(Objects::isNull);
+        if (distinct.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Map<Long, Question> found = questionMapper.selectList(new LambdaQueryWrapper<Question>()
+                        .in(Question::getId, distinct).eq(Question::getStatus, 1))
+                .stream().collect(Collectors.toMap(Question::getId, q -> q));
+        return distinct.stream().map(found::get).filter(Objects::nonNull).map(this::toVO).collect(Collectors.toList());
+    }
+
     @Transactional
     public Long save(QuestionSaveRequest req) {
+        if (!QuestionTypes.isValid(req.getQuestionType())) {
+            throw new BizException("不支持的题型");
+        }
         if (req.getKnowledgePointIds() == null || req.getKnowledgePointIds().isEmpty()) {
             throw new BizException("请至少绑定一个知识点");
         }
@@ -138,7 +160,7 @@ public class QuestionService {
 
     private void fillCorrectAnswer(Question question, QuestionSaveRequest req) {
         String type = req.getQuestionType();
-        if ("SINGLE".equals(type) || "MULTIPLE".equals(type) || "JUDGE".equals(type)) {
+        if (QuestionTypes.isChoice(type)) {
             if (req.getOptions() == null) {
                 throw new BizException("请填写选项");
             }

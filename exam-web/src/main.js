@@ -6,7 +6,11 @@ import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import App from './App.vue'
 import router from './router'
+import logo from './assets/logo.png'
 import './styles.css'
+
+const icon = document.querySelector('link[rel="icon"]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }))
+icon.href = logo
 
 const app = createApp(App)
 app.use(createPinia())

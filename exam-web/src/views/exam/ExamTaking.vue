@@ -14,7 +14,7 @@
         >{{ q.seq }}</button>
       </aside>
       <section v-if="current">
-        <div class="meta">第 {{ current.seq }} 题 / {{ paper.questions.length }} · {{ typeName(current.questionType) }} · {{ current.questionScore }} 分</div>
+        <div class="meta">第 {{ current.seq }} 题 / {{ paper.questions.length }} · {{ typeLabel(current.questionType) }} · {{ current.questionScore }} 分</div>
         <div class="stem">{{ current.content }}</div>
         <div v-if="current.questionType === 'SINGLE' || current.questionType === 'JUDGE'">
           <el-radio-group v-model="current.studentAnswer" @change="persist">
@@ -31,8 +31,8 @@
           </el-checkbox-group>
         </div>
         <div v-else>
-          <el-input v-model="current.studentAnswer" type="textarea" :rows="current.questionType === 'ESSAY' ? 10 : 3" @change="persist" />
-          <div v-if="current.questionType === 'ESSAY'" class="count">{{ (current.studentAnswer || '').length }} 字</div>
+          <el-input v-model="current.studentAnswer" type="textarea" :rows="isSubjective(current.questionType) ? 10 : 3" @change="persist" />
+          <div v-if="isSubjective(current.questionType)" class="count">{{ (current.studentAnswer || '').length }} 字</div>
         </div>
         <el-button style="margin-top:16px" @click="toggleFlag">{{ current.flagged === 1 ? '取消标记' : '标记未确定' }}</el-button>
       </section>
@@ -45,9 +45,8 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { startExam, saveAnswers, submitExam } from '../../api'
+import { typeLabel, isSubjective } from '../../utils/questionTypes'
 
-const map = { SINGLE: '单选', MULTIPLE: '多选', JUDGE: '判断', FILL: '填空', ESSAY: '简答' }
-const typeName = (v) => map[v] || v
 const route = useRoute()
 const router = useRouter()
 const paper = ref(null)

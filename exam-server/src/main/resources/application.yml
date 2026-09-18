@@ -31,6 +31,8 @@ mybatis-plus:
 exam:
   jwt-secret: ExamPlatformJwtSecretKeyMustBeAtLeast256BitsLong!!
   jwt-expire-hours: 24
+  # PDF 导出用的中文字体，留空时依次尝试 classpath:fonts/ 与系统字体目录；.ttc 可带 ",0" 选择子字体
+  pdf-font-path: ${EXAM_PDF_FONT_PATH:}
 
 springdoc:
   api-docs:

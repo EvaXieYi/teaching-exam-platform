@@ -9,18 +9,18 @@
     </div>
     <div class="mark">
       <aside>
-        <div v-for="(a, i) in detail.answers" :key="a.id" class="qno" :class="{ on: i===idx, essay: a.questionTypeSnapshot==='ESSAY', done: a.markedAt }" @click="idx=i">
+        <div v-for="(a, i) in detail.answers" :key="a.id" class="qno" :class="{ on: i===idx, essay: isSubjective(a.questionTypeSnapshot), done: a.markedAt }" @click="idx=i">
           {{ i + 1 }}
         </div>
       </aside>
       <section class="card" v-if="cur">
-        <div class="meta">{{ typeName(cur.questionTypeSnapshot) }} · {{ cur.questionScore }} 分</div>
+        <div class="meta">{{ typeLabel(cur.questionTypeSnapshot) }} · {{ cur.questionScore }} 分</div>
         <div class="stem">{{ cur.questionContentSnapshot }}</div>
         <h4>学生作答</h4>
         <pre>{{ cur.studentAnswer || '（未作答）' }}</pre>
         <h4>参考答案</h4>
         <pre>{{ cur.correctAnswerSnapshot }}</pre>
-        <template v-if="cur.questionTypeSnapshot === 'ESSAY'">
+        <template v-if="isSubjective(cur.questionTypeSnapshot)">
           <el-form-item label="给分">
             <el-input-number v-model="score" :min="0" :max="Number(cur.questionScore)" />
           </el-form-item>
@@ -40,9 +40,8 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { markingDetail, markAnswer } from '../../api'
+import { typeLabel, isSubjective } from '../../utils/questionTypes'
 
-const map = { SINGLE: '单选', MULTIPLE: '多选', JUDGE: '判断', FILL: '填空', ESSAY: '简答' }
-const typeName = (v) => map[v] || v
 const route = useRoute()
 const detail = ref(null)
 const idx = ref(0)
@@ -58,7 +57,7 @@ watch(cur, (a) => {
 
 async function load() {
   detail.value = (await markingDetail(route.params.recordId)).data
-  const first = detail.value.answers.findIndex(a => a.questionTypeSnapshot === 'ESSAY' && !a.markedAt)
+  const first = detail.value.answers.findIndex(a => isSubjective(a.questionTypeSnapshot) && !a.markedAt)
   idx.value = first >= 0 ? first : 0
 }
 async function save() {

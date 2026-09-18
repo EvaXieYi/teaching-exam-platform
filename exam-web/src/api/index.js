@@ -4,6 +4,15 @@ import http from './http'
 export const login = (data) => http.post('/api/auth/login', data)
 export const me = () => http.get('/api/auth/me')
 export const logout = () => http.post('/api/auth/logout')
+export const getMyAvatar = () => http.get('/api/auth/avatar', {
+  responseType: 'blob',
+  validateStatus: (s) => s === 200 || s === 204 || s === 404
+})
+export const uploadMyAvatar = (file) => {
+  const fd = new FormData()
+  fd.append('file', file)
+  return http.post('/api/auth/avatar', fd)
+}
 
 export const dashboard = () => http.get('/api/dashboard')
 
@@ -32,6 +41,14 @@ export const pageQuestions = (params) => http.get('/api/questions', { params })
 export const getQuestion = (id) => http.get(`/api/questions/${id}`)
 export const saveQuestion = (data) => data.id ? http.put(`/api/questions/${data.id}`, data) : http.post('/api/questions', data)
 export const removeQuestion = (id) => http.delete(`/api/questions/${id}`)
+export const downloadQuestionTemplate = () => http.get('/api/questions/import-template', { responseType: 'blob' })
+export const importQuestions = (file, defaultKnowledgePointId) => {
+  const fd = new FormData()
+  fd.append('file', file)
+  if (defaultKnowledgePointId) fd.append('defaultKnowledgePointId', defaultKnowledgePointId)
+  return http.post('/api/questions/import', fd)
+}
+export const exportQuestionsPdf = (payload) => http.post('/api/questions/export-pdf', payload, { responseType: 'blob' })
 
 export const pagePapers = (params) => http.get('/api/papers', { params })
 export const paperOptions = () => http.get('/api/papers/options')

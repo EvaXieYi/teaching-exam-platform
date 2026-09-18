@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-head"><div><h2>阅卷中心</h2><p>只处理简答题，全部批完后才出总分</p></div></div>
+    <div class="page-head"><div><h2>阅卷中心</h2><p>只处理主观题（简答 / 关键词解释），全部批完后才出总分</p></div></div>
     <div class="card">
       <el-radio-group v-model="status" @change="load" style="margin-bottom:12px">
         <el-radio-button label="">全部</el-radio-button>
@@ -15,7 +15,7 @@
         <el-table-column label="状态" width="110">
           <template #default="{ row }">{{ row.record.recordStatus === 'MARKING' ? '待阅卷' : '已完成' }}</template>
         </el-table-column>
-        <el-table-column prop="pendingEssay" label="未批简答" width="110" />
+        <el-table-column prop="pendingEssay" label="未批主观题" width="120" />
         <el-table-column label="客观题" width="90"><template #default="{ row }">{{ row.record.objectiveScore }}</template></el-table-column>
         <el-table-column width="100">
           <template #default="{ row }"><el-button link type="primary" @click="$router.push(`/admin/marking/${row.record.id}`)">阅卷</el-button></template>

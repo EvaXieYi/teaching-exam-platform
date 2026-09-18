@@ -22,6 +22,7 @@ import com.exam.mapper.QuestionMapper;
 import com.exam.mapper.QuestionOptionMapper;
 import com.exam.mapper.StudentMapper;
 import com.exam.mapper.SysUserMapper;
+import com.exam.util.QuestionTypes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -35,7 +36,7 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 /**
- * 库为空时写入演示数据：admin / teacher / 两名学生、知识点树、5 道样题、一场进行中的考试。
+ * 库为空时写入演示数据：admin / teacher / 两名学生、知识点树、6 道样题（含一道关键词解释题）、一场进行中的考试。
  * 有用户后不再重复初始化。
  */
 public class DataInitializer implements ApplicationRunner {
@@ -125,6 +126,15 @@ public class DataInitializer implements ApplicationRunner {
         q5.setDefaultScore(new BigDecimal("40"));
         questionMapper.updateById(q5);
         link(q5.getId(), enc.getId());
+
+        // 关键词解释题样题，不加入演示试卷，仅作题库展示
+        Question q6 = question(java.getId(), QuestionTypes.TERM, "请解释 IaaS（基础设施即服务）的含义及典型场景。",
+                "评分要点：说清“基础设施资源按需交付”，并给出合理场景。",
+                "IaaS 指云厂商以服务形式提供计算、存储、网络等基础设施资源，用户按需使用、按量计费；典型场景如云服务器 ECS、云硬盘。",
+                2, teacher.getId(), now);
+        q6.setDefaultScore(new BigDecimal("5"));
+        questionMapper.updateById(q6);
+        link(q6.getId(), java.getId());
 
         ExamPaper paper = new ExamPaper();
         paper.setPaperName("Java 基础测验");
