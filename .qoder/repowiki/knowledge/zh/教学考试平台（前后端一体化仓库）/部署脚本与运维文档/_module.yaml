@@ -1,0 +1,12 @@
+schema_version: 1
+module_path: deploy_docs_scripts
+title: 部署脚本与运维文档
+scope:
+    - deploy/
+    - docs/
+    - scripts/
+source_files: []
+depends_on: []
+related_to:
+    - path: exam_server
+    - path: exam_web

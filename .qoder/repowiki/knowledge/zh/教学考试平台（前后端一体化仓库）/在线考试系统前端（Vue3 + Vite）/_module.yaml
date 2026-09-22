@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: exam_web
+title: 在线考试系统前端（Vue3 + Vite）
+scope:
+    - exam-web/
+source_files: []
+depends_on: []
+related_to:
+    - path: deploy_docs_scripts

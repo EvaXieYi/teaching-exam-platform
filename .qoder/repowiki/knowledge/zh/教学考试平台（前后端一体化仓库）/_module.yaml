@@ -1,0 +1,28 @@
+schema_version: 1
+module_path: ""
+title: 教学考试平台（前后端一体化仓库）
+scope:
+    - README.md
+    - docker-compose.yml
+    - start-server.bat
+    - start-web.bat
+    - .gitignore
+    - step1_admin_dashboard.png
+    - step1_login_page.png
+    - step2_dropdown_filter.png
+    - step2_filter_cleared.png
+    - step2_filter_term.png
+    - step2_questions_page.png
+    - step2_questions_page_loaded.png
+    - step3_template_downloaded.png
+    - step4_import_dialog.png
+    - step4_import_result.png
+    - step5_bad_import_result.png
+    - step6_cross_page_selection.png
+    - step7_export_pdf.png
+    - step8_questions_list.png
+    - step9_marking_center.png
+    - 考试系统-方案.md
+source_files: []
+depends_on: []
+related_to: []

@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: exam_server
+title: 教学考试平台后端服务
+scope:
+    - exam-server/
+source_files: []
+depends_on: []
+related_to:
+    - path: deploy_docs_scripts

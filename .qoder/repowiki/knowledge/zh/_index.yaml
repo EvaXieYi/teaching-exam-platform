@@ -1,0 +1,72 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: add-docs
+nodes_managed: true
+exported_at: "2026-09-18T09:36:49Z"
+modules:
+    "":
+        dir_name: 教学考试平台（前后端一体化仓库）
+        title: 教学考试平台（前后端一体化仓库）
+        scope:
+            - README.md
+            - docker-compose.yml
+            - start-server.bat
+            - start-web.bat
+            - .gitignore
+            - step1_admin_dashboard.png
+            - step1_login_page.png
+            - step2_dropdown_filter.png
+            - step2_filter_cleared.png
+            - step2_filter_term.png
+            - step2_questions_page.png
+            - step2_questions_page_loaded.png
+            - step3_template_downloaded.png
+            - step4_import_dialog.png
+            - step4_import_result.png
+            - step5_bad_import_result.png
+            - step6_cross_page_selection.png
+            - step7_export_pdf.png
+            - step8_questions_list.png
+            - step9_marking_center.png
+            - 考试系统-方案.md
+        source_files: []
+        children:
+            - deploy_docs_scripts
+            - exam_server
+            - exam_web
+        depends_on: []
+        related_to: []
+    deploy_docs_scripts:
+        dir_name: 部署脚本与运维文档
+        title: 部署脚本与运维文档
+        scope:
+            - deploy/
+            - docs/
+            - scripts/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: exam_server
+            - path: exam_web
+    exam_server:
+        dir_name: 教学考试平台后端服务
+        title: 教学考试平台后端服务
+        scope:
+            - exam-server/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: deploy_docs_scripts
+    exam_web:
+        dir_name: 在线考试系统前端（Vue3 + Vite）
+        title: 在线考试系统前端（Vue3 + Vite）
+        scope:
+            - exam-web/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: deploy_docs_scripts
